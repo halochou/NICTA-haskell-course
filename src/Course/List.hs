@@ -299,11 +299,13 @@ lengthGT4 = lengthGT 4
 -- prop> let types = x :: List Int in reverse x ++ reverse y == reverse (y ++ x)
 --
 -- prop> let types = x :: Int in reverse (x :. Nil) == x :. Nil
+--
+-- TODO: Very Slow
 reverse ::
   List a
   -> List a
 reverse =
-  error "todo: Course.List#reverse"
+  foldLeft (flip (:.)) Nil
 
 -- | Produce an infinite `List` that seeds with the given value at its head,
 -- then runs the given function for subsequent elements
@@ -317,8 +319,9 @@ produce ::
   (a -> a)
   -> a
   -> List a
-produce =
-  error "todo: Course.List#produce"
+produce f head =
+  head :. produce f (f head)
+  
 
 -- | Do anything other than reverse a list.
 -- Is it even possible?
@@ -333,7 +336,7 @@ notReverse ::
   List a
   -> List a
 notReverse =
-  error "todo: Is it even possible?"
+  reverse
 
 ---- End of list exercises
 
